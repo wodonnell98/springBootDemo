@@ -7,36 +7,53 @@ import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
 @RestController
-@RequestMapping("/glass")
+@RequestMapping("/cocktail")
 public class SpringBootDemoApplication {
-
-	@Autowired
-	private CocktailGlassRepository cocktailGlassRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootDemoApplication.class, args);
 	}
 
-	@GetMapping("/all")
+	@Autowired
+	private IngredientRepository ingredientRepository;
+
+	@GetMapping("/allIngredients")
+	public @ResponseBody Iterable<ingredient> getAllIngredients(){
+		return ingredientRepository.findAll();
+	}
+
+	@PostMapping("/addIngredient")
+	public @ResponseBody String addIngredient (@RequestParam String Name)
+	{
+
+		ingredient savedIngredient = new ingredient(Name);
+		ingredientRepository.save(savedIngredient);
+		return "Saved";
+	}
+
+	@Autowired
+	private CocktailGlassRepository cocktailGlassRepository;
+
+	@GetMapping("/allGlasses")
 	public @ResponseBody Iterable<CocktailGlass> getAllGlasses(){
 		return cocktailGlassRepository.findAll();
 	}
 
-
-	/*@GetMapping("/customRoute")
-	public String myResponse(){
-		GlassesShelf glassesShelf = new GlassesShelf();
-		return glassesShelf.toString();
-	}*/
-
 	@PostMapping("/addAGlass")
-	public @ResponseBody String addAGlass (@RequestParam String id
+	public @ResponseBody String addAGlass (@RequestParam String glassID
 			, @RequestParam String type , @RequestParam int volume) {
 
 
-		CocktailGlass savedGlass = new CocktailGlass(id,type,volume);
+		CocktailGlass savedGlass = new CocktailGlass(glassID,type,volume);
 		cocktailGlassRepository.save(savedGlass);
 		return "Saved";
 
 	}
+
+
 }
+/*@GetMapping("/customRoute")
+	public String myResponse(){
+		GlassesShelf glassesShelf = new GlassesShelf();
+		return glassesShelf.toString();
+	}*/

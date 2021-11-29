@@ -10,13 +10,16 @@ public class CocktailGlass {
 
     @Id
     @GeneratedValue(strategy= GenerationType.TABLE)
-    private String id;
+    private int id;
 
     private String type;
     private int volume;
+    private String glassID;
 
-    public CocktailGlass(String id, String type, int volume){
-        this.id = id;
+    public CocktailGlass(){}
+
+    public CocktailGlass(String glassID, String type, int volume){
+        this.glassID = glassID;
         this.type = type;
         this.volume = volume;
     }
@@ -30,12 +33,20 @@ public class CocktailGlass {
               "Glass volume is" + " " + volume + ".";
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public String getGlassID() {
+        return glassID;
+    }
+
+    public void setGlassID(String glassID) {
+        this.glassID = glassID;
     }
 
     public String getType() {
